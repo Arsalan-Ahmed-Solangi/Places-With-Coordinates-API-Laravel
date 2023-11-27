@@ -18,11 +18,11 @@ class UserController extends Controller
     }
 
     public function getCities(Request $request){
-        // $cities = City::latest()->where("CountryId",'=',$request->id)->get();
-        // if($cities){
-        //     return response()->json(array('status'=>200,'cities'=>$cities));
-        // }else{
-        //     return response()->json(array('status'=>404,'message'=>'No Cities Found'));
-        // }
+        $cities = City::latest()->where("CountryId",'=',$request->id)->get();
+        if($cities){
+            return response()->json(array('status'=>200,'cities'=>$cities));
+        }else{
+            return response()->json(array('status'=>404,'message'=>'No Cities Found'));
+        }
     }
 }

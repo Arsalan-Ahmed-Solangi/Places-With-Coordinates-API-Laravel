@@ -54,6 +54,7 @@
                             id: Id
                         },
                         success: function(data) {
+                        console.log(data);
                             if (data.status == 200) {
                                 $("#CityId").html("<option value=''>--Select City--</option>");
                                 $.each(data.cities, function(i, value) {
@@ -71,6 +72,8 @@
             });
 
             $("#CityId").change(function() {
+                console.log($("#CityId").val())
+                console.log(name);
                 var name = $(this).val();
                 if (name != "") {
                     var map;
@@ -131,6 +134,7 @@ var storeLng = storeLocation.lng();
                     <td>${storeAddress}</td>
                     <td>${storeLat}</td>
         <td> ${storeLng}</td>
+        <td>${name}</td>
                 </tr>
             `;
                                         $("#storesBody").append(div);

@@ -41,7 +41,8 @@
                             <label>Type</label>
                             <select name="SearchName" id="SearchName" required class="form-select">
                                 <option value="">Select Type</option>
-                                <option value="Tabacco Store">Tabacco Store</option>
+                                <option value="Tabacoo , Hookah, Shisha and Vape stores">Tabacco Store</option>
+                                <option value="Shisha Store">Shisha Store</option>
                                 <option value="department_store">department_store</option>
                                 <option value="home_goods_store">home_goods_store</option>
                                 <option value="supermarket">supermarket</option>
@@ -91,6 +92,7 @@
                                 <th>Address</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
+                                <th>City</th>
                             </tr>
                         </thead>
                         <tbody id="storesBody">
