@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [UserController::class,'index'])->name('home');
+Route::get('/', [UserController::class, 'index'])->name('home');
 
-Route::post('/getCities', [UserController::class,'getCities'])->name('getCities');
+Route::post('/getCities', [UserController::class, 'getCities'])->name('getCities');
+
+Route::post('/downloadCSV', [UserController::class, 'downloadCSV'])->name('downloadCSV');

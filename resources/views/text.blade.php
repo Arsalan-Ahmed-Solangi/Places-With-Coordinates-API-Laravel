@@ -49,6 +49,8 @@
 
         $(document).ready(function() {
 
+            let csvData = []
+
             // Function to export and download the table data as CSV
             function exportTableToCSV() {
                 var data = [];
@@ -71,7 +73,7 @@
                 // Create a blob object and create a download link
                 var blob = new Blob([csv], {
                     type: 'text/csv;charset=utf-8;'
-                }); // Set the charset to UTF-8
+                });
                 var url = window.URL.createObjectURL(blob);
 
                 // Create a download link and trigger the click event
@@ -85,18 +87,9 @@
             }
 
 
-            // Attach the export function to the downloadButton click event
             $('#downloadButton').on('click', function() {
                 exportTableToCSV();
             });
-
-
-            // Trigger the download button click to export the table data
-
-
-
-
-
 
             var map;
             map = new google.maps.Map(document.getElementById('map'), {
@@ -107,7 +100,6 @@
                 zoom: 15
             });
 
-            // Function to perform a text search and retrieve all results
             function performTextSearch(query, location, radius, pageToken) {
                 var service = new google.maps.places.PlacesService(map);
                 var allResults = [];
@@ -115,6 +107,8 @@
                 function handleSearchResults(results, status, pagination) {
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
                         allResults = allResults.concat(results);
+
+                        console.log(results);
 
                         if (pagination.hasNextPage) {
                             // Perform the next page request if available
@@ -138,10 +132,11 @@
                 }, handleSearchResults);
             }
 
-            // Function to display results in a table
             function displayResults(results) {
                 $("#storesBody").empty();
                 var countA = 1;
+
+                csvData = []
 
                 results.forEach(function(place) {
 
@@ -157,9 +152,16 @@
                     var storeLat = storeLocation.lat();
                     var storeLng = storeLocation.lng();
 
+                    csvData.push({
+                        storeName,
+                        storeAddress,
+                        storeLat,
+                        storeLng,
+                        storeCity: $("#CityId").val()
+                    })
+
                     var div = `
                         <tr>
-
                             <td>${storeName}</td>
                             <td>${storeAddress}</td>
                             <td>${storeLat}</td>
@@ -200,11 +202,9 @@
                 }
             });
 
-
             // Trigger the search when the city is selected
             $("#SearchName").change(function() {
-
-
+                $("#storesBody").empty();
                 Swal.fire({
                     title: 'Please Wait!',
                     allowOutsideClick: false, // Prevent users from clicking outside the modal
@@ -263,6 +263,30 @@
                     })
                 }
             });
+
+
+            $("#downloadCSV").click(function() {
+                $.ajax({
+                    url: '{{ route('downloadCSV') }}',
+                    type: 'POST',
+                    data: {
+                        csvData
+                    },
+                    success: function(data) {
+                        if (!data.status) {
+                            alert("No Cities Found")
+                            return
+                        }
+
+
+                        let apth = window.location.origin + "/files/stores.csv"
+                        window.open(
+                            apth,
+                            '_blank'
+                        );
+                    }
+                });
+            })
         });
     </script>
 </body>
