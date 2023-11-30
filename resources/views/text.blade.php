@@ -50,6 +50,8 @@
         $(document).ready(function() {
 
             let csvData = []
+            var allResults = [];
+
 
             // Function to export and download the table data as CSV
             function exportTableToCSV() {
@@ -86,7 +88,6 @@
                 window.URL.revokeObjectURL(url);
             }
 
-
             $('#downloadButton').on('click', function() {
                 exportTableToCSV();
             });
@@ -102,33 +103,44 @@
 
             function performTextSearch(query, location, radius, pageToken) {
                 var service = new google.maps.places.PlacesService(map);
-                var allResults = [];
 
                 function handleSearchResults(results, status, pagination) {
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
-                        allResults = allResults.concat(results);
+                        for (let i = 0; i < results.length; i++) {
+                            const placeId = results[i].place_id;
 
-                        console.log(results);
+                            service.getDetails({
+                                placeId: placeId,
+                                fields: ["name", "formatted_address"]
+                            }, function(place, status) {
+                                if (status !== 'OK') return
+                                if (status == google.maps.places.PlacesServiceStatus.OK) {
 
-                        if (pagination.hasNextPage) {
-                            // Perform the next page request if available
-                            pagination.nextPage();
-                        } else {
-                            // When no more pages are available, display all results
-                            displayResults(allResults);
-                            Swal.close();
+                                    allResults.push({
+                                        ...results[i],
+                                        ...place
+                                    })
+                                }
+                            });
                         }
+                        // if (pagination.hasNextPage) {
+                        //     // Perform the next page request if available
+                        //     pagination.nextPage();
+                        // } else {
+                        //     // When no more pages are available, display all results
+                        //     // displayResults(allResults);
+                        //     Swal.close();
+                        // }
                     } else {
-                        console.error('Text Search request failed with status:', status);
+                        // console.error('Text Search request failed with status:', status);
+                        alert("Stores not found")
                     }
                 }
 
-                // Initial text search request
-                service.textSearch({
-                    query: query,
+                service.nearbySearch({
+                    type: query,
                     location: location,
                     radius: radius,
-                    pageToken: pageToken
                 }, handleSearchResults);
             }
 
@@ -138,13 +150,19 @@
 
                 csvData = []
 
-                results.forEach(function(place) {
+                let removeDuplicate = {
+                    lat: [],
+                    lng: [],
+                }
 
-                    var marker = new google.maps.Marker({
-                        position: place.geometry.location,
-                        map: map,
-                        title: place.name
-                    });
+                const {
+                    lat,
+                    lng
+                } = removeDuplicate
+
+
+
+                results.forEach(function(place) {
 
                     var storeName = place.name.replace(/,/g, '');
                     var storeAddress = place.formatted_address.replace(/,/g, '');
@@ -152,16 +170,23 @@
                     var storeLat = storeLocation.lat();
                     var storeLng = storeLocation.lng();
 
-                    csvData.push({
-                        storeName,
-                        storeAddress,
-                        storeLat,
-                        storeLng,
-                        storeCity: $("#CityId").val()
-                    })
+                    if (!lat.includes(storeLat.toString()) && !lng.includes(storeLng.toString())) {
 
-                    var div = `
+                        csvData.push({
+                            storeName,
+                            storeAddress,
+                            storeLat,
+                            storeLng,
+                            storeCity: $("#CityId").val()
+                        })
+
+                        lat.push(storeLat.toString())
+
+                        lng.push(storeLng.toString())
+
+                        var div = `
                         <tr>
+                            <td>${countA}</td>
                             <td>${storeName}</td>
                             <td>${storeAddress}</td>
                             <td>${storeLat}</td>
@@ -169,10 +194,13 @@
                             <td>${ $("#CityId").val() }</td>
                         </tr>
                     `;
-                    div = div.replace(/[;,،'"]/g, '');
-                    $("#storesBody").append(div);
+                        div = div.replace(/[;,،'"]/g, '');
+                        $("#storesBody").append(div);
 
-                    countA++;
+                        countA++;
+
+                    }
+
                 });
             }
 
@@ -202,67 +230,158 @@
                 }
             });
 
-            // Trigger the search when the city is selected
-            $("#SearchName").change(function() {
-                $("#storesBody").empty();
-                Swal.fire({
-                    title: 'Please Wait!',
-                    allowOutsideClick: false, // Prevent users from clicking outside the modal
-                    onBeforeOpen: () => {
-                        Swal.showLoading(); // Show the loading spinner
+            $("#CityId").change(function() {
+                var name = $("#CityId").val();
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({
+                    address: name
+                }, function(results, status) {
+                    if (status == "OK") {
+                        var lat = results[0].geometry.location.lat();
+                        var lng = results[0].geometry.location.lng();
+
+                        var cityLatLng = new google.maps.LatLng(lat, lng);
+
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            center: {
+                                lat: cityLatLng.lat(),
+                                lng: cityLatLng.lng()
+                            },
+                            zoom: 10
+                        });
+
+                        google.maps.event.addListener(map, "click", function(event) {
+                            var search = $("#SearchName").val();
+                            var query = search
+                            // + " in " + name;
+                            var radius = $("#StoreRadius").val()
+                            radius = Number(radius)
+
+                            var center = new google.maps.LatLng(event.latLng.lat(), event
+                                .latLng.lng());
+
+
+                            var marker = new google.maps.Marker({
+                                position: center,
+                                map: map,
+                            });
+
+                            var circle = new google.maps.Circle({
+                                map: map,
+                                center: center,
+                                radius: radius,
+                                strokeColor: '#FF0000',
+                                strokeOpacity: 0.8,
+                                strokeWeight: 2,
+                                fillColor: '#FF0000',
+                                fillOpacity: 0.35,
+                            });
+
+                            // console.log({
+                            //     lat: event.latLng.lat(),
+                            //     lng: event.latLng.lng()
+                            // });
+                            // console.log(radius);
+                            console.log(query);
+
+                            performTextSearch(query, {
+                                lat: event.latLng.lat(),
+                                lng: event.latLng.lng()
+                            }, radius, null);
+
+                        });
+
+
+                    } else {
+                        console.log(
+                            "Geocode was not successful for the following reason: " +
+                            status);
                     }
                 });
-
-                var name = $("#CityId").val();
-                var search = $(this).val();
-
-                if (search != "") {
-                    console.log(search);
-                    if (name != "") {
-                        var geocoder = new google.maps.Geocoder();
-                        geocoder.geocode({
-                            address: name
-                        }, function(results, status) {
-                            if (status == "OK") {
-                                var lat = results[0].geometry.location.lat();
-                                var lng = results[0].geometry.location.lng();
-
-                                var cityLatLng = new google.maps.LatLng(lat, lng);
-                                console.log(lat, lng);
-                                map = new google.maps.Map(document.getElementById('map'), {
-                                    center: {
-                                        lat: cityLatLng.lat(),
-                                        lng: cityLatLng.lng()
-                                    },
-                                    zoom: 8
-                                });
+            })
 
 
-                                // Perform the initial text search with an empty page token
-                                // performTextSearch('Wholesale Stores in Jeddah', cityLatLng, 100000, null);
+            $("#showAllStores").click(() => {
 
-                                console.log(search);
-                                var query = search + " in " + name;
-                                console.log(search);
-                                performTextSearch(query, cityLatLng, 2000, null);
+                console.log(allResults);
 
-                            } else {
-                                console.log(
-                                    "Geocode was not successful for the following reason: " +
-                                    status);
-                            }
-                        });
-                    }
 
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Please select type',
+                displayResults(allResults);
+            })
 
-                    })
-                }
-            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // Trigger the search when the city is selected
+            // $("#SearchName").change(function() {
+            //     $("#storesBody").empty();
+            //     Swal.fire({
+            //         title: 'Please Wait!',
+            //         allowOutsideClick: false,
+            //         onBeforeOpen: () => {
+            //             Swal.showLoading();
+            //         }
+            //     });
+
+            //     var name = $("#CityId").val();
+            //     var search = $(this).val();
+
+            //     if (search != "") {
+            //         console.log(search);
+            //         if (name != "") {
+            //             var geocoder = new google.maps.Geocoder();
+            //             geocoder.geocode({
+            //                 address: name
+            //             }, function(results, status) {
+            //                 if (status == "OK") {
+            //                     var lat = results[0].geometry.location.lat();
+            //                     var lng = results[0].geometry.location.lng();
+
+            //                     var cityLatLng = new google.maps.LatLng(lat, lng);
+            //                     console.log(lat, lng);
+            //                     map = new google.maps.Map(document.getElementById('map'), {
+            //                         center: {
+            //                             lat: cityLatLng.lat(),
+            //                             lng: cityLatLng.lng()
+            //                         },
+            //                         zoom: 8
+            //                     });
+
+
+            //                     // Perform the initial text search with an empty page token
+            //                     // performTextSearch('Wholesale Stores in Jeddah', cityLatLng, 100000, null);
+
+            //                     var query = search + " in " + name;
+            //                     performTextSearch(query, cityLatLng, 2000, null);
+
+            //                 } else {
+            //                     console.log(
+            //                         "Geocode was not successful for the following reason: " +
+            //                         status);
+            //                 }
+            //             });
+            //         }
+
+            //     } else {
+            //         Swal.fire({
+            //             icon: 'error',
+            //             title: 'Oops...',
+            //             text: 'Please select type',
+
+            //         })
+            //     }
+            // });
 
 
             $("#downloadCSV").click(function() {

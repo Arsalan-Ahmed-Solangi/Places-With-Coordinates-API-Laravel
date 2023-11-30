@@ -21,7 +21,7 @@
 
                                     @empty
 
-                                        <option value="Lahore">Lahore</option>
+
 
                                         <option value="">--No Countires Found---</option>
                                     @endforelse
@@ -32,7 +32,7 @@
                                 <label>City</label>
                                 <select name="CityId" id="CityId" required class="form-select">
                                     <option value="">Select City</option>
-                                    <option value="Ichra Lahore">Ichra Lahore</option>
+
                                 </select>
                             </div>
                             <div class="form-group  mt-2 mb-2">
@@ -47,12 +47,18 @@
                                     <option value="store">store</option>
                                     <option value="Restaurants">Restaurants</option>
                                     <option value="Grocery Stores">Grocery Stores</option>
-
                                     <option value="shoe_store">shoe_store</option>
                                     <option value="hardware_store">hardware_store</option>
                                     <option value="electronics_store">electronics_store</option>
                                     <option value="furniture_store">furniture_store</option>
-
+                                </select>
+                            </div>
+                            <div class="form-group mt-2 mb-2">
+                                <label>Radius</label>
+                                <select name="StoreRadius" id="StoreRadius" required class="form-select">
+                                    @for ($i = 500; $i <= 10000; $i += 500)
+                                        <option value={{ $i }}>{{ $i }}</option>
+                                    @endfor
                                 </select>
                             </div>
                             {{-- <div class="form-group  mt-2 mb-2">
@@ -79,6 +85,10 @@
 
                         </form>
 
+                        <button id="showAllStores" class="btn btn-primary">
+                            Show All
+                        </button>
+
                     </div>
                 </div>
                 <hr />
@@ -90,7 +100,7 @@
                 <table class="table table-responsive table-bordered" id="storesTable">
                     <thead>
                         <tr>
-                            {{-- <th>SR#</th> --}}
+                            <th>SR#</th>
                             <th>Store Name</th>
                             <th>Address</th>
                             <th>Latitude</th>
