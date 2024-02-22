@@ -51,6 +51,7 @@
                                     <option value="hardware_store">hardware_store</option>
                                     <option value="electronics_store">electronics_store</option>
                                     <option value="furniture_store">furniture_store</option>
+                                    <option value="atm">Meezan Bank</option>
                                 </select>
                             </div>
                             <div class="form-group mt-2 mb-2">
@@ -61,27 +62,6 @@
                                     @endfor
                                 </select>
                             </div>
-                            {{-- <div class="form-group  mt-2 mb-2">
-                            <label>Search</label>
-                            <select name="SearchName" id="SearchName" required class="form-select">
-                                <option value="Retail Stores">Retail Stores</option>
-                                <option value="Retail Stores">Retail Stores</option>
-                                <option value="Wholesale Stores">Wholesale Stores</option>
-                                <option value="Tabacco Stores">Tabacco Stores</option>
-                                <option value="Medical Stores">Medical Stores</option>
-                                <option value="Pharmacies">Pharmacies</option>
-                                <option value="General Stores">General Stores</option>
-                                <option value="Food Stores">Food Stores</option>
-                                <option value="Hardware Stores">Hardware Stores</option>
-                                <option value="Clothing Stores">Clothing Stores</option>
-                                <option value="Gift & Specialty Shops">Gift & Specialty Shops</option>
-                                <option value="Antique Stores">Antique Stores</option>
-                                <option value="Cosmetics Stores">Cosmetics Stores</option>
-                                <option value="Farmers Markets">Farmers Markets</option>
-                            </select>
-                        </div> --}}
-
-
 
                         </form>
 
@@ -112,7 +92,7 @@
 
                     </tbody>
                 </table>
-                {{-- <button id="downloadButton" class="btn btn-primary">Download Stores</button> --}}
+
 
             </div>
         </div>

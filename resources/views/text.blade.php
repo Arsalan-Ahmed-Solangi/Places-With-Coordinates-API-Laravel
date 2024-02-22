@@ -23,7 +23,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
+    </script> --}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD--lXNwtCOjHDq5mCzvM-qGiPOrXIj6NE&libraries=places">
+
     </script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
