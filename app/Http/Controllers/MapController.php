@@ -40,7 +40,7 @@ class MapController extends Controller
     {
         $sumPopulation = 0;
         $sumArea = 0;
-        $sumGender = ['Male' => 0, 'Female' => 0, 'Transgender' => 0];
+        $sumGender = ['Male' => 0, 'Female' => 0];
         $sumDensity = 0;
         $sumUrbanRural = ['Urban' => 0, 'Rural' => 0];
         $sumLiteracy = ['Yes' => 0, 'No' => 0];
@@ -93,7 +93,7 @@ class MapController extends Controller
             // $sumGender['Transgender'] += intval(str_replace(',', '', $item->Gender->Transgender));
 
             $sumGender['Female'] += intval(str_replace(',', '', rand(10000, 500000)));
-            $sumGender['Transgender'] += intval(str_replace(',', '', rand(10000, 500000)));
+            // $sumGender['Transgender'] += intval(str_replace(',', '', rand(10000, 500000)));
 
             $item->AgeDistribution = json_decode($item->AgeDistribution);
 
@@ -102,7 +102,7 @@ class MapController extends Controller
             }
         }
 
-        $sumGenderChart = [['label' => 'Male', 'value' => $sumGender['Male']], ['label' => 'Female', 'value' => $sumGender['Female']], ['label' => 'Transgender', 'value' => $sumGender['Transgender']]];
+        $sumGenderChart = [['label' => 'Male', 'value' => $sumGender['Male']], ['label' => 'Female', 'value' => $sumGender['Female']]];
         $sumUrbanChart = [['label' => 'Urban', 'value' => $sumUrbanRural['Urban']], ['label' => 'Rural', 'value' => $sumUrbanRural['Rural']]];
         $sumLiteracyChart = [['label' => 'Yes', 'value' => $sumLiteracy['Yes']], ['label' => 'No', 'value' => $sumLiteracy['No']]];
 
