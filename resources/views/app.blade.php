@@ -26,7 +26,7 @@
     {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
 
     </script> --}}
-      <script src="https://maps.googleapis.com/maps/api/js?key=AlzaSyCtc8Tmj9nLQgiDYIf2eSZMTwcnUxJ05x8&libraries=places">
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
 
       </script>
 

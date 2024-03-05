@@ -26,7 +26,7 @@
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQW_xurohjwQkSnJ5GOMwtsMcju3SUi-w&libraries=places,geometry,drawing">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places,geometry,drawing">
     </script>
     <script src="https://unpkg.com/h3-js@3.7.0/dist/h3-js.umd.js"></script>
     <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
