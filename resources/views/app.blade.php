@@ -26,9 +26,14 @@
     {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
 
     </script> --}}
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
+      {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
 
-      </script>
+      </script> --}}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQW_xurohjwQkSnJ5GOMwtsMcju3SUi-w&libraries=places">
+
+</script>
+
 
 
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
