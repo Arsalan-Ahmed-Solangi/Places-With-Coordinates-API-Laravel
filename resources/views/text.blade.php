@@ -28,7 +28,7 @@
     {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Ntbzd-arHSe4s-H1Og78KwucQtppVu0&libraries=places">
 
     </script> --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9rm_qjBp2Ha4W4yUGhQ4Yf1DljwnpS9c&libraries=places">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA60gAFM1MOpyBF30dymn-_F3sOanHcGGs&libraries=places">
 
     </script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

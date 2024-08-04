@@ -44,6 +44,7 @@
                                     <option value="department_store">department_store</option>
                                     <option value="home_goods_store">home_goods_store</option>
                                     <option value="supermarket">supermarket</option>
+                                    <option value="super stores">Super Stores</option>
                                     <option value="store">store</option>
                                     <option value="Restaurants">Restaurants</option>
                                     <option value="Grocery Stores">Grocery Stores</option>
